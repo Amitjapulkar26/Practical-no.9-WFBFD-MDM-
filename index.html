@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CM25005 | To-Do List</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 text-gray-800 min-h-screen">
+
+  <div class="max-w-3xl mx-auto px-6 py-10">
+
+    <!-- Header -->
+    <p class="text-blue-600 text-sm font-bold">
+      CM25005 • WEB FUNDAMENTALS
+    </p>
+
+    <h1 class="text-4xl font-bold mt-2">
+      Today's <span class="text-blue-600">List</span>
+    </h1>
+
+    <p class="text-gray-500 mt-2 mb-8">
+      Classes, assignments and daily tasks — all in one place.
+    </p>
+
+
+    <!-- Add Task -->
+    <div class="bg-white p-4 rounded-xl border shadow-sm flex gap-3">
+
+      <input id="taskInput"
+        type="text"
+        placeholder="Add a task..."
+        class="flex-1 border rounded-lg px-4 py-3 outline-none
+               focus:border-blue-500">
+
+      <button id="addBtn"
+        class="bg-blue-600 text-white px-6 rounded-lg
+               font-semibold hover:bg-blue-700">
+        Add
+      </button>
+
+    </div>
+
+
+    <!-- Task Info -->
+    <div class="flex justify-between mt-7 mb-3">
+
+      <p class="text-gray-500">
+        <span id="count">1</span> task
+      </p>
+
+      <button id="clearBtn"
+        class="text-red-500 text-sm">
+        Clear All
+      </button>
+
+    </div>
+
+
+    <!-- Task List -->
+    <div id="taskList" class="space-y-3">
+
+      <!-- Sample Task -->
+      <div class="task bg-white border rounded-xl p-4 shadow-sm
+                  flex justify-between items-center">
+
+        <div class="flex items-center gap-4">
+
+          <button class="check w-6 h-6 rounded-full
+                         border-2 border-gray-400">
+          </button>
+
+          <span class="taskText font-medium">
+            Complete Python Manual
+          </span>
+
+        </div>
+
+        <button class="delete text-red-500 text-xl">
+          ×
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <p class="text-center text-gray-400 text-xs mt-8">
+      CM25005 | Personal To-Do List | Web Fundamentals Lab
+    </p>
+
+  </div>
+
+
+<script>
+
+  // Select elements
+  let input = document.getElementById("taskInput");
+  let list = document.getElementById("taskList");
+  let count = document.getElementById("count");
+
+
+  // Add task
+  document.getElementById("addBtn").addEventListener("click", function() {
+
+    let text = input.value.trim();
+
+    if (text == "") {
+      alert("Enter a task");
+      return;
+    }
+
+    // Create task
+    let task = document.createElement("div");
+
+    task.className =
+      "task bg-white border rounded-xl p-4 shadow-sm flex justify-between items-center";
+
+    task.innerHTML = `
+      <div class="flex items-center gap-4">
+
+        <button class="check w-6 h-6 rounded-full
+                       border-2 border-gray-400">
+        </button>
+
+        <span class="taskText font-medium">${text}</span>
+
+      </div>
+
+      <button class="delete text-red-500 text-xl">×</button>
+    `;
+
+    // Add task to page
+    list.appendChild(task);
+
+    input.value = "";
+    updateCount();
+  });
+
+
+  // Complete or delete task
+  list.addEventListener("click", function(e) {
+
+    if (e.target.classList.contains("check")) {
+
+      let text = e.target.parentElement.querySelector(".taskText");
+
+      text.classList.toggle("line-through");
+      text.classList.toggle("text-gray-400");
+
+      e.target.innerHTML =
+        e.target.innerHTML == "" ? "✓" : "";
+
+    }
+
+    if (e.target.classList.contains("delete")) {
+
+      e.target.parentElement.parentElement.remove();
+
+      updateCount();
+    }
+
+  });
+
+
+  // Count tasks
+  function updateCount() {
+
+    count.innerText =
+      document.querySelectorAll(".task").length;
+  }
+
+
+  // Clear all
+  document.getElementById("clearBtn").addEventListener("click", function() {
+
+    list.innerHTML = "";
+
+    updateCount();
+  });
+
+</script>
+
+</body>
+</html>
